@@ -1,0 +1,1038 @@
+/* Expense Tracker - Enhanced Responsive UI
+   - Polished Light/Dark palettes
+   - Category-colored chips for common categories
+   - Glassy surfaces, deeper shadows, micro-interactions
+   - Accessible focus and high contrast
+   - Responsive grids for form and controls
+   - Sticky total bar and toast
+*/
+
+/* ------------------------------
+   Base + Theme Variables
+--------------------------------*/
+:root {
+  /* Palette - Light */
+  --bg: #f6f8fc; /* Softer neutral background */
+  --bg-grad-1: #ffffff;
+  --bg-grad-2: #f2f6ff;
+
+  --surface: #ffffff;
+  --surface-2: #f7f9fc;
+  --text: #0f172a;
+  --muted: #667085;
+  --border: #e6eaf2;
+
+  --accent: #3b82f6;    /* Blue */
+  --accent-2: #a855f7;  /* Purple */
+  --success: #16a34a;   /* Green */
+  --warning: #d97706;   /* Amber */
+  --danger:  #ef4444;   /* Red */
+  --info:    #0ea5e9;   /* Cyan */
+
+  --chip-bg: #eef2ff;
+  --chip-text: #1e3a8a;
+
+  --input-bg: #ffffff;
+
+  --radius: 12px;
+  --radius-sm: 10px;
+  --radius-xs: 8px;
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.04);
+  --shadow-2: 0 8px 24px rgba(0,0,0,.08);
+  --shadow-3: 0 14px 40px rgba(0,0,0,.10);
+
+  --ring: 0 0 0 3px color-mix(in oklab, var(--accent) 25%, transparent);
+
+  /* Accent gradient for CTAs and headers */
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%);
+
+  color-scheme: light;
+}
+
+/* Prefer system dark if no explicit data-theme set (optional fallback) */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+  }
+  html:not([data-theme]) body {
+    background:
+      radial-gradient(1200px 600px at 85% -10%, color-mix(in oklab, #7c89ff 22%, transparent) 0%, transparent 60%),
+      radial-gradient(1000px 500px at -20% 110%, color-mix(in oklab, #bd86ff 20%, transparent) 0%, transparent 60%),
+      #0b1020;
+  }
+}
+
+html[data-theme="dark"] {
+  /* Palette - Dark */
+  --bg: #0b1020;
+  --bg-grad-1: #0b1020;
+  --bg-grad-2: #0c1426;
+  --surface: #0f162b;
+  --surface-2: #0c1426;
+  --text: #e8ecf6;
+  --muted: #9aa4b2;
+  --border: #1d2639;
+
+  --accent: #7c89ff;    /* Softer blue for dark */
+  --accent-2: #bd86ff;  /* Purple-pink */
+  --success: #2dd4bf;
+  --warning: #f59e0b;
+  --danger:  #f87171;
+  --info:    #38bdf8;
+
+  --chip-bg: rgba(124, 137, 255, .16);
+  --chip-text: #cdd7ff;
+
+  --input-bg: #0a1222;
+
+  --ring: 0 0 0 3px color-mix(in oklab, var(--accent) 35%, transparent);
+
+  color-scheme: dark;
+}
+
+/* ------------------------------
+   Resets
+--------------------------------*/
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 1.55;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
+  color: var(--text);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark mode gradient accent "ingredient/gradient" */
+html[data-theme="dark"] body {
+  position: relative;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 60%),
+    radial-gradient(1000px 500px at -20% 110%, color-mix(in oklab, var(--accent-2) 20%, transparent) 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
+}
+html[data-theme="dark"] body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: -10%;
+  background:
+    radial-gradient(900px 400px at 10% -5%, color-mix(in oklab, var(--accent) 10%, transparent) 0%, transparent 60%),
+    radial-gradient(700px 300px at 120% 105%, color-mix(in oklab, var(--accent-2) 12%, transparent) 0%, transparent 60%);
+  opacity: .7;
+  z-index: -1;
+  filter: blur(0.5px);
+}
+
+/* Links */
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Focus styles */
+:where(button, [role="button"], input, select, textarea, a, label):focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: max(6px, var(--radius-xs));
+}
+
+/* ------------------------------
+   Layout Shell
+--------------------------------*/
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: clamp(16px, 2.5vw, 24px);
+}
+
+/* Header with theme toggle */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 32px);
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: transparent;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 1px 0 rgba(0,0,0,.04);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+}
+
+#theme-switch {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+.theme-toggle label {
+  --w: 62px;
+  --h: 34px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: var(--w);
+  height: var(--h);
+  padding: 0 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .2s ease;
+  user-select: none;
+}
+.theme-toggle label:hover { transform: translateY(-1px); box-shadow: var(--shadow-2); }
+
+.theme-toggle label::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(var(--h) - 6px);
+  height: calc(var(--h) - 6px);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0,0,0,.12);
+  transition: transform .25s ease, background .2s ease, border-color .2s ease;
+}
+
+.theme-toggle .sun,
+.theme-toggle .moon {
+  font-size: 14px;
+  line-height: 1;
+  opacity: .85;
+}
+
+#theme-switch:checked + label::after {
+  transform: translateX(calc(var(--w) - var(--h)));
+}
+
+/* ------------------------------
+   Panel + Card helpers
+--------------------------------*/
+.panel,
+.card {
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: saturate(1.1);
+}
+
+/* ------------------------------
+   Form Styles
+--------------------------------*/
+#expense-form {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  padding: 16px;
+  background: color-mix(in oklab, var(--surface) 96%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
+}
+
+/* Fields layout */
+#expense-name { grid-column: span 4; }
+#expense-amount { grid-column: span 2; }
+#expense-category { grid-column: span 2; }
+#expense-date { grid-column: span 2; }
+#expense-notes { grid-column: span 6; }
+#editing-id { display: none; }
+#submit-btn { grid-column: span 3; }
+#reset-btn { grid-column: span 3; }
+
+@media (max-width: 900px) {
+  #expense-name { grid-column: span 12; }
+  #expense-amount, #expense-category, #expense-date { grid-column: span 4; }
+  #expense-notes { grid-column: span 12; }
+  #submit-btn, #reset-btn { grid-column: span 6; }
+}
+@media (max-width: 620px) {
+  #expense-form { gap: 10px; padding: 12px; }
+  #expense-amount, #expense-category, #expense-date { grid-column: span 12; }
+  #submit-btn, #reset-btn { grid-column: span 12; }
+}
+
+label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--text) 70%, #000 0%);
+  margin: 2px 0 6px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select,
+button {
+  font: inherit;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--input-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 0 rgba(0,0,0,.03) inset;
+  transition: border-color .15s ease, box-shadow .15s ease, background .2s ease, transform .06s ease;
+  appearance: none;
+}
+
+select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+input::placeholder { color: color-mix(in oklab, var(--muted) 72%, transparent); }
+input:hover, select:hover {
+  border-color: color-mix(in oklab, var(--accent) 30%, var(--border));
+}
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+input:disabled, select:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+button {
+  --btn-bg: var(--accent-gradient);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  color: white;
+  background: var(--btn-bg);
+  border: 1px solid color-mix(in oklab, var(--accent) 54%, #000 8%);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 6px 14px color-mix(in oklab, var(--accent) 25%, transparent);
+  transition: transform .06s ease, box-shadow .2s ease, filter .2s ease, opacity .2s ease, background .2s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px color-mix(in oklab, var(--accent) 26%, transparent);
+}
+button:active {
+  transform: translateY(0);
+  filter: brightness(.98);
+}
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+button.secondary {
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+}
+button.secondary:hover {
+  box-shadow: var(--shadow-2);
+}
+button.danger {
+  color: white;
+  --btn-bg: linear-gradient(180deg, color-mix(in oklab, var(--danger) 92%, #fff 0%), color-mix(in oklab, var(--danger) 92%, #000 10%));
+  background: var(--btn-bg);
+  border: 1px solid color-mix(in oklab, var(--danger) 65%, #000 10%);
+  box-shadow: 0 6px 14px color-mix(in oklab, var(--danger) 30%, transparent);
+}
+button.ghost {
+  color: var(--text);
+  background: transparent;
+  border: 1px dashed color-mix(in oklab, var(--accent) 40%, var(--border));
+  box-shadow: none;
+}
+button.ghost:hover {
+  background: color-mix(in oklab, var(--surface-2) 70%, transparent);
+}
+
+/* ------------------------------
+   Controls (Filters + Actions)
+--------------------------------*/
+#controls {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+}
+#controls #search { grid-column: span 5; }
+#controls #filter-category { grid-column: span 2; }
+#controls #filter-period { grid-column: span 2; }
+#controls #sort-by { grid-column: span 3; }
+.controls-actions { grid-column: span 12; display: flex; gap: 10px; justify-content: flex-end; }
+
+@media (max-width: 900px) {
+  #controls #search { grid-column: span 12; }
+  #controls #filter-category,
+  #controls #filter-period,
+  #controls #sort-by { grid-column: span 4; }
+}
+@media (max-width: 620px) {
+  #controls { gap: 10px; padding: 10px; }
+  #controls #filter-category,
+  #controls #filter-period,
+  #controls #sort-by { grid-column: span 12; }
+  .controls-actions { justify-content: stretch; flex-wrap: wrap; }
+  .controls-actions > * { flex: 1 1 auto; }
+}
+
+/* ------------------------------
+   Summary Chips
+--------------------------------*/
+#summary {
+  margin-top: 22px;
+}
+#summary h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chips .chip,
+#category-summary .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1px solid color-mix(in oklab, var(--chip-text) 20%, transparent);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.chips .chip .amount {
+  color: color-mix(in oklab, var(--chip-text) 80%, #fff 10%);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Category-colored chips (works for both .category and .chip with data-cat attr) */
+:where(.category, .chip)[data-cat="Food"] {
+  background: color-mix(in oklab, #fef3c7 80%, transparent);
+  color: #9a3412;
+  border-color: #fde68a;
+}
+:where(.category, .chip)[data-cat="Travel"],
+:where(.category, .chip)[data-cat="Transport"] {
+  background: color-mix(in oklab, #cffafe 80%, transparent);
+  color: #155e75;
+  border-color: #a5f3fc;
+}
+:where(.category, .chip)[data-cat="Shopping"] {
+  background: color-mix(in oklab, #f5f3ff 85%, transparent);
+  color: #5b21b6;
+  border-color: #ddd6fe;
+}
+:where(.category, .chip)[data-cat="Bills"],
+:where(.category, .chip)[data-cat="Utilities"] {
+  background: color-mix(in oklab, #ecfeff 80%, transparent);
+  color: #0b4a6e;
+  border-color: #bae6fd;
+}
+:where(.category, .chip)[data-cat="Entertainment"] {
+  background: color-mix(in oklab, #ffe4e6 80%, transparent);
+  color: #9f1239;
+  border-color: #fecdd3;
+}
+:where(.category, .chip)[data-cat="Health"] {
+  background: color-mix(in oklab, #dcfce7 80%, transparent);
+  color: #166534;
+  border-color: #bbf7d0;
+}
+:where(.category, .chip)[data-cat="Education"] {
+  background: color-mix(in oklab, #e0e7ff 80%, transparent);
+  color: #1e3a8a;
+  border-color: #c7d2fe;
+}
+:where(.category, .chip)[data-cat="Rent"] {
+  background: color-mix(in oklab, #fee2e2 80%, transparent);
+  color: #7f1d1d;
+  border-color: #fecaca;
+}
+:where(.category, .chip)[data-cat="Income"] {
+  background: color-mix(in oklab, #dcfce7 80%, transparent);
+  color: #065f46;
+  border-color: #86efac;
+}
+:where(.category, .chip)[data-cat="Other"] {
+  background: color-mix(in oklab, #e2e8f0 80%, transparent);
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+/* Dark adjustments for category-colored chips */
+html[data-theme="dark"] :where(.category, .chip)[data-cat] {
+  background: color-mix(in oklab, currentColor 16%, transparent);
+  border-color: color-mix(in oklab, currentColor 24%, transparent);
+  color: color-mix(in oklab, var(--chip-text) 90%, #fff 0%);
+}
+
+/* ------------------------------
+   Expenses List (UPGRADED+ Scoped)
+   - De-duped and enhanced (scoped to #expense-list only)
+--------------------------------*/
+#expenses-title {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* Section-scoped tokens (do not leak globally) */
+#expense-list {
+  /* Feature tokens */
+  --press-scale: .995;
+  --note-max-ch: 56;
+  --checkbox-size: 18px;
+  --ripple-color: color-mix(in oklab, var(--accent) 18%, transparent);
+  --skeleton-base: color-mix(in oklab, var(--surface-2) 70%, transparent);
+  --skeleton-highlight: color-mix(in oklab, var(--surface) 92%, transparent);
+  --sticky-offset: 0px;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(16px, 2.4vw, 28px);
+}
+
+/* Optional date group header inside the list (e.g., <li class="group-header">Today</li>) */
+#expense-list .group-header {
+  position: sticky;
+  top: var(--sticky-offset);
+  z-index: 2;
+  padding: 6px 10px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 90%, #000 0%);
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(6px) saturate(1.1);
+}
+
+/* Expense item card */
+#expense-list li {
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    "title amount"
+    "meta actions";
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(10px, 1.2vw, 16px) clamp(16px, 2vw, 22px);
+  padding: clamp(16px, 2.2vw, 24px) clamp(18px, 3vw, 28px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease, outline-color .2s ease;
+  outline: 0 solid transparent;
+  animation: elevate-in .18s ease both;
+  overflow: hidden; /* keep ripple clipped to radius */
+}
+
+/* zebra for scannability */
+#expense-list li:nth-child(even) {
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+}
+
+#expense-list li:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-2);
+  border-color: color-mix(in oklab, var(--accent) 24%, var(--border));
+  background: color-mix(in oklab, var(--surface) 94%, transparent);
+}
+#expense-list li:focus-within {
+  border-color: var(--accent);
+  outline: 3px solid color-mix(in oklab, var(--accent) 18%, transparent);
+}
+#expense-list li.editing {
+  border-style: dashed;
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+}
+
+/* Subtle press + ripple (touch-friendly, scoped) */
+@media (hover: none) {
+  #expense-list li:active { transform: scale(var(--press-scale)); }
+}
+#expense-list li::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(220px 220px at var(--rx, 50%) var(--ry, 50%), var(--ripple-color), transparent 60%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+#expense-list li:active::after { opacity: .9; }
+/* You can set --rx / --ry from JS for ripple origin */
+
+/* Quick category stripe for rapid visual decoding */
+#expense-list li::before {
+  content: "";
+  position: absolute;
+  left: -1px; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background: color-mix(in oklab, var(--accent) 86%, #000 0%);
+  opacity: .9;
+}
+/* Stripe colors by category via data attributes or nested .category chip */
+#expense-list li[data-cat="Food"]::before,
+#expense-list li:has(.category[data-cat="Food"])::before { background: #f59e0b; }
+#expense-list li[data-cat="Travel"]::before,
+#expense-list li[data-cat="Transport"]::before,
+#expense-list li:has(.category[data-cat="Travel"])::before,
+#expense-list li:has(.category[data-cat="Transport"])::before { background: #06b6d4; }
+#expense-list li[data-cat="Shopping"]::before,
+#expense-list li:has(.category[data-cat="Shopping"])::before { background: #8b5cf6; }
+#expense-list li[data-cat="Bills"]::before,
+#expense-list li[data-cat="Utilities"]::before,
+#expense-list li:has(.category[data-cat="Bills"])::before,
+#expense-list li:has(.category[data-cat="Utilities"])::before { background: #38bdf8; }
+#expense-list li[data-cat="Entertainment"]::before,
+#expense-list li:has(.category[data-cat="Entertainment"])::before { background: #f43f5e; }
+#expense-list li[data-cat="Health"]::before,
+#expense-list li:has(.category[data-cat="Health"])::before { background: #22c55e; }
+#expense-list li[data-cat="Education"]::before,
+#expense-list li:has(.category[data-cat="Education"])::before { background: #6366f1; }
+#expense-list li[data-cat="Rent"]::before,
+#expense-list li:has(.category[data-cat="Rent"])::before { background: #ef4444; }
+#expense-list li[data-cat="Income"]::before,
+#expense-list li:has(.category[data-cat="Income"])::before { background: #16a34a; }
+
+/* Areas for common inner structure */
+#expense-list li .title { grid-area: title; }
+#expense-list li .meta { grid-area: meta; }
+#expense-list li .category { grid-area: meta; } /* category sits with meta on small screens */
+#expense-list li .amount { grid-area: amount; justify-self: end; }
+#expense-list li .actions { grid-area: actions; justify-self: end; }
+
+/* Larger screens: give category its own column */
+@media (min-width: 760px) {
+  #expense-list li {
+    grid-template-areas:
+      "title category amount actions"
+      "meta  category amount actions";
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+  }
+  #expense-list li .category { grid-area: category; justify-self: start; }
+}
+
+/* Text + meta polish */
+#expense-list li .title {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#expense-list li .meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(8px, 1vw, 16px) clamp(12px, 1.5vw, 18px);
+  color: var(--muted);
+  font-size: 13px;
+  min-height: 20px;
+}
+
+/* Expandable notes: clamp by default; expand on li.expanded */
+#expense-list li .meta .note {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted) 30%, transparent);
+  background: color-mix(in oklab, var(--surface-2) 80%, transparent);
+  color: color-mix(in oklab, var(--text) 70%, #000 0%);
+  font-weight: 600;
+  font-size: 12px;
+
+  max-width: calc(var(--note-max-ch) * 1ch);
+  display: -webkit-box;
+  transition: margin-right 2s;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: -webkit-line-clamp .2s ease;
+}
+#expense-list li.expanded .meta .note {
+  transition: margin-right 2s;
+  white-space: normal;
+}
+
+/* Category chip (uses earlier chip colors if data-cat is set) */
+#expense-list li .category {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1px solid color-mix(in oklab, var(--chip-text) 20%, transparent);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Amount pill with income/expense coloring */
+#expense-list li .amount {
+  font-weight: 900;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--accent) 10%, transparent);
+  color: color-mix(in oklab, var(--accent) 84%, var(--text));
+  border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--border));
+}
+#expense-list li[data-type="income"] .amount,
+#expense-list li .amount.income {
+  color: color-mix(in oklab, var(--success) 90%, #fff 0%);
+  background: color-mix(in oklab, var(--success) 14%, transparent);
+  border-color: color-mix(in oklab, var(--success) 26%, var(--border));
+}
+#expense-list li[data-type="expense"] .amount,
+#expense-list li .amount.expense {
+  color: color-mix(in oklab, var(--danger) 92%, #fff 0%);
+  background: color-mix(in oklab, var(--danger) 12%, transparent);
+  border-color: color-mix(in oklab, var(--danger) 26%, var(--border));
+}
+
+/* Inline progress meter (optional)
+   Markup: <div class="progress"><div class="fill" style="--progress:65%"></div></div> */
+#expense-list li .progress {
+  width: min(240px, 40vw);
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--border) 85%, transparent);
+  overflow: hidden;
+  outline: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+#expense-list li .progress .fill {
+  height: 100%;
+  width: var(--progress, 0%);
+  background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 85%, transparent), color-mix(in oklab, var(--accent-2) 85%, transparent));
+  transition: width .3s ease;
+}
+
+/* Actions: subtle reveal on hover for desktop, always visible on mobile */
+#expense-list li .actions {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 14px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  /* desktop reveal */
+  #expense-list li .actions { opacity: 0; transform: translateX(4px); }
+  #expense-list li:hover .actions,
+  #expense-list li:focus-within .actions { opacity: 1; transform: translateX(0); }
+}
+#expense-list li .actions button {
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+#expense-list li .actions .danger {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--danger) 90%, #fff 0%), color-mix(in oklab, var(--danger) 88%, #000 8%));
+}
+
+/* Better mobile actions: keep visible and pinned right */
+@media (max-width: 620px) {
+  #expense-list li {
+    grid-template-areas:
+      "title amount"
+      "meta  actions";
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding-right: 96px; /* room for 2-3 action buttons */
+  }
+  #expense-list li .actions {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+    gap: 8px;
+  }
+  #expense-list li .actions button {
+    padding: 8px;
+    min-width: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+}
+
+/* Compact and extra-compact density */
+#expense-list.compact li {
+  padding: 10px 12px;
+  gap: 6px 10px;
+}
+#expense-list.compact li .meta { font-size: 12px; }
+#expense-list.x-compact li {
+  padding: 8px 10px;
+  gap: 6px 8px;
+}
+#expense-list.x-compact li .amount { font-size: 14px; }
+#expense-list.x-compact li .meta { font-size: 12px; }
+
+/* Bulk-select mode (optional)
+   - Add class "bulk-select" to #expense-list
+   - Place a checkbox with class "row-check" in each <li>
+     Optionally wrap in <span class="row-select">...</span> */
+#expense-list.bulk-select li { padding-left: 54px; }
+#expense-list.bulk-select li .row-select,
+#expense-list li .row-select {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  z-index: 1;
+}
+#expense-list input[type="checkbox"].row-check {
+  appearance: none;
+  -webkit-appearance: none;
+  inline-size: var(--checkbox-size);
+  block-size: var(--checkbox-size);
+  border: 1.5px solid color-mix(in oklab, var(--muted) 40%, var(--border));
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--surface) 96%, transparent);
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04) inset;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease, transform .06s ease;
+}
+#expense-list input[type="checkbox"].row-check:hover {
+  border-color: color-mix(in oklab, var(--accent) 30%, var(--border));
+}
+#expense-list input[type="checkbox"].row-check:active { transform: scale(.95); }
+#expense-list input[type="checkbox"].row-check:focus-visible { box-shadow: var(--ring); }
+#expense-list input[type="checkbox"].row-check::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 72%;
+  height: 72%;
+  background: white;
+  opacity: 0;
+  transition: opacity .15s ease;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') center / contain no-repeat;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') center / contain no-repeat;
+}
+#expense-list input[type="checkbox"].row-check:checked {
+  background: color-mix(in oklab, var(--accent) 90%, #000 0%);
+  border-color: color-mix(in oklab, var(--accent) 80%, #000 0%);
+  box-shadow: 0 4px 12px color-mix(in oklab, var(--accent) 26%, transparent);
+}
+#expense-list input[type="checkbox"].row-check:checked::after { opacity: 1; }
+#expense-list li[aria-selected="true"] {
+  outline: 2px solid color-mix(in oklab, var(--accent) 24%, transparent);
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+}
+
+/* Skeleton loading shimmer (scoped) */
+@keyframes expense-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+#expense-list .skeleton,
+#expense-list .skeleton .title,
+#expense-list .skeleton .meta,
+#expense-list .skeleton .amount,
+#expense-list .skeleton .category {
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 37%, var(--skeleton-base) 63%);
+  background-size: 200% 100%;
+  animation: expense-shimmer 1.3s infinite;
+  border-color: transparent !important;
+  color: transparent !important;
+  user-select: none;
+}
+#expense-list li.skeleton::before { background: transparent; } /* hide stripe while loading */
+#expense-list li.skeleton .actions { opacity: 0; }
+/* Suggested skeleton shapes */
+#expense-list li.skeleton .title { height: 14px; width: 40%; border-radius: 6px; }
+#expense-list li.skeleton .meta { height: 12px; width: 60%; border-radius: 6px; }
+#expense-list li.skeleton .amount { height: 20px; width: 70px; border-radius: 10px; }
+#expense-list li.skeleton .category { height: 16px; width: 80px; border-radius: 999px; }
+
+/* Responsive stacking for small screens (already covered; kept for clarity) */
+@media (max-width: 620px) {
+  #expense-list li .actions { justify-self: end; }
+}
+
+/* Forced colors (Windows High Contrast) */
+@media (forced-colors: active) {
+  #expense-list li,
+  #expense-list li .amount,
+  #expense-list li .category {
+    forced-color-adjust: none;
+    border: 1px solid ButtonText;
+    background: Canvas;
+    color: ButtonText;
+  }
+  #expense-list li:focus-within { outline: 2px solid Highlight; }
+  #expense-list input[type="checkbox"].row-check {
+    border-color: ButtonText;
+    background: Canvas;
+  }
+  #expense-list input[type="checkbox"].row-check:checked {
+    background: Highlight;
+    border-color: Highlight;
+  }
+}
+/* ------------------------------
+   Total Footer
+--------------------------------*/
+#total {
+  position: sticky;
+  bottom: 10px;
+  margin-top: 18px;
+  z-index: 10;
+}
+#total h3 {
+  margin: 0;
+  padding: 12px 14px;
+  background: color-mix(in oklab, var(--surface) 86%, transparent);
+  backdrop-filter: saturate(1.2) blur(6px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#total-amount {
+  color: color-mix(in oklab, var(--accent) 92%, var(--text));
+  font-weight: 900;
+}
+#total-count.muted {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* ------------------------------
+   Toast
+--------------------------------*/
+#toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+  padding: 12px 14px;
+  min-width: 220px;
+  max-width: min(90vw, 420px);
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-3);
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* toast variants (optional): add data-variant="success|danger|info" */
+#toast[data-variant="success"] { border-color: color-mix(in oklab, var(--success) 40%, var(--border)); }
+#toast[data-variant="danger"]  { border-color: color-mix(in oklab, var(--danger) 40%, var(--border)); }
+#toast[data-variant="info"]    { border-color: color-mix(in oklab, var(--info) 40%, var(--border)); }
+
+/* ------------------------------
+   Utilities
+--------------------------------*/
+.muted { color: var(--muted); }
+.hidden { display: none !important; }
+
+/* Scrollbars */
+* {
+  scrollbar-color: color-mix(in oklab, var(--accent) 40%, var(--border)) transparent;
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--accent) 36%, var(--border));
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--accent) 48%, var(--border));
+}
+
+/* Micro animation for list appearance (optional) */
+@keyframes elevate-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#expense-list li { animation: elevate-in .2s ease both; }
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css"/>
+  <meta name="color-scheme" content="light dark">
+</head>
+<body>
+  <noscript>This app requires JavaScript to function.</noscript>
+  <div class="container">
+    <header class="header">
+      <h1>Expense Tracker</h1>
+      <div class="theme-toggle" title="Toggle theme">
+        <input type="checkbox" id="theme-switch" aria-label="Toggle dark mode">
+        <label for="theme-switch">
+          <span class="sun">☀️</span>
+          <span class="moon">🌙</span>
+        </label>
+      </div>
+    </header>
+
+    <form id="expense-form" autocomplete="off" aria-label="Add or edit an expense">
+      <input type="text" id="expense-name" placeholder="Expense name" required />
+      <input type="number" id="expense-amount" placeholder="Amount" step="0.01" min="0" required />
+      <select id="expense-category" aria-label="Category" required>
+        <option value="" disabled selected>Category</option>
+        <option>Food</option>
+        <option>Transport</option>
+        <option>Housing</option>
+        <option>Utilities</option>
+        <option>Entertainment</option>
+        <option>Health</option>
+        <option>Education</option>
+        <option>Shopping</option>
+        <option>Travel</option>
+        <option>Other</option>
+      </select>
+      <input type="date" id="expense-date" aria-label="Date" required />
+      <input type="text" id="expense-notes" placeholder="Notes (optional)" />
+      <input type="hidden" id="editing-id" />
+      <button type="submit" id="submit-btn">Add Expense</button>
+      <button type="reset" id="reset-btn" class="secondary">Reset</button>
+    </form>
+
+    <section id="controls" aria-label="Filters and actions">
+      <input type="search" id="search" placeholder="Search by name or notes…" aria-label="Search expenses" />
+      <select id="filter-category" aria-label="Filter by category">
+        <option value="all" selected>All Categories</option>
+        <option>Food</option>
+        <option>Transport</option>
+        <option>Housing</option>
+        <option>Utilities</option>
+        <option>Entertainment</option>
+        <option>Health</option>
+        <option>Education</option>
+        <option>Shopping</option>
+        <option>Travel</option>
+        <option>Other</option>
+      </select>
+      <select id="filter-period" aria-label="Filter by period">
+        <option value="all" selected>All time</option>
+        <option value="this-month">This month</option>
+        <option value="last-30">Last 30 days</option>
+      </select>
+      <select id="sort-by" aria-label="Sort by">
+        <option value="date-desc" selected>Date (newest)</option>
+        <option value="date-asc">Date (oldest)</option>
+        <option value="amount-desc">Amount (high → low)</option>
+        <option value="amount-asc">Amount (low → high)</option>
+        <option value="name-asc">Name (A → Z)</option>
+        <option value="name-desc">Name (Z → A)</option>
+      </select>
+      <div class="controls-actions">
+        <button id="export-txt" class="secondary" type="button" aria-label="Export TXT">Export TXT</button>
+        <button id="clear-all" class="danger" type="button">Clear All</button>
+      </div>
+    </section>
+
+    <section id="summary" aria-label="Category summary">
+      <h2>Summary</h2>
+      <div id="category-summary" class="chips"></div>
+    </section>
+
+    <section aria-label="Expenses list">
+      <h2 id="expenses-title">Expenses</h2>
+      <ul id="expense-list" aria-live="polite">
+        <!-- Items rendered by JS -->
+      </ul>
+      <div id="empty-state" class="empty">No expenses found. Add your first one above!</div>
+    </section>
+
+    <div id="total">
+      <h3>Total: <span id="total-amount">0.00</span> <span id="total-count" class="muted">(0 items)</span></h3>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
