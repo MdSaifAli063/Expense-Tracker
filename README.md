@@ -91,6 +91,7 @@ Key CSS variables (style.css):
 
 Tip: You can add or rename categories by editing the <select> options in both the form and filter controls in index.html.
 
+
 ## 🗄️ Data Persistence
 
 - Expenses are stored in the browser’s localStorage
@@ -132,6 +133,7 @@ Tip: You can add or rename categories by editing the <select> options in both th
 - Fork, branch, and open a PR with a clear description
 - Keep the UI accessible and responsive
 - Add tests or manual test notes when changing logic
+  
 
 ## 📄 License
 
