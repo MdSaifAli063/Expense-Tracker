@@ -91,33 +91,25 @@ Key CSS variables (style.css):
 
 Tip: You can add or rename categories by editing the <select> options in both the form and filter controls in index.html.
 
-
 ## 🗄️ Data Persistence
-
 
 - Expenses are stored in the browser’s localStorage
 - Data remains on the same device and browser unless cleared
 - Use “Clear All” to wipe storage for this app
   
-
 ## 🧪 Exporting
-
 
 - “Export TXT” generates a text file of the currently visible (filtered/sorted) list
 - Great for quick sharing or archiving
 - For CSV/JSON export, you can extend the script to generate other formats
   
-
 ## 🌐 Browser Support
-
 
 - Modern Chromium, Firefox, and Safari are supported
 - Advanced CSS (e.g., color-mix) looks best on up-to-date browsers
 - If something looks off on very old browsers, try updating
   
-
 ## 🔧 Troubleshooting
-
 
 - “Nothing appears in the list”
   - Ensure required fields are filled
@@ -127,9 +119,7 @@ Tip: You can add or rename categories by editing the <select> options in both th
 - “Export doesn’t download”
   - Some mobile browsers block downloads; try on desktop or change permissions
     
-
 ## 🗺️ Roadmap Ideas
-
 
 - CSV/JSON export
 - Monthly budgets and progress bars
@@ -137,23 +127,17 @@ Tip: You can add or rename categories by editing the <select> options in both th
 - Multi-currency support
 - Import from CSV
   
-
 ## 🤝 Contributing
-
 
 - Fork, branch, and open a PR with a clear description
 - Keep the UI accessible and responsive
 - Add tests or manual test notes when changing logic
   
-
 ## 📄 License
-
 
 - MIT — Use it freely, attribution appreciated
   
-
 ## 💡 Credits
-
 
 - Design and implementation: You
 - Icons: Native emoji (no external dependencies)
