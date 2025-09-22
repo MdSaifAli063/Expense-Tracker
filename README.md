@@ -21,8 +21,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## 🖼️ Preview
-- Open `index.html` directly in your browser to view the app  
-- (Optional) Place screenshots in `/screenshots` and reference them here  
+![image](https://github.com/MdSaifAli063/Expense-Tracker/blob/f83c878810980359eb870d538f2d991ebf942b0a/Screenshot%202025-09-23%20010618.png)
 
 ---
 
