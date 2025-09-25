@@ -400,6 +400,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 }
 
 /* Expenses List */
+/* Expenses List */
 #expenses-title {
   margin: 22px 0 10px;
   font-size: 18px;
@@ -407,31 +408,83 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 }
 
 #expense-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;        /* proper spacing between cards */
+  padding: 0;
+  margin: 0;
   list-style: none;
-  margin: 0; padding: 0;
-  display: grid;
-  gap: clamp(16px, 2.4vw, 28px);
 }
 
+/* each card */
 #expense-list li {
   position: relative;
   display: grid;
   grid-template-areas:
-    "title amount"
-    "meta actions";
-  grid-template-columns: 1fr auto;
+    "title amount actions"
+    "meta  meta   actions";
+  grid-template-columns: 1fr auto auto;
+  grid-template-rows: auto auto;
   align-items: center;
-  gap: clamp(10px, 1.2vw, 16px) clamp(16px, 2vw, 22px);
-  padding: clamp(16px, 2.2vw, 24px) clamp(18px, 3vw, 28px);
+  column-gap: clamp(16px, 2vw, 28px);
+  row-gap: clamp(6px, 1.2vw, 12px);
+
+  /* 👇 add vertical spacing safety */
+  margin: 0;                 /* reset */
+  border-radius: var(--radius);
+  padding: clamp(20px, 2.2vw, 24px) clamp(18px, 3vw, 28px);
+
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
   box-shadow: var(--shadow-1);
-  transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease, outline-color .2s ease;
+  transition: transform .06s ease, box-shadow .2s ease,
+              border-color .2s ease, background .2s ease, outline-color .2s ease;
   outline: 0 solid transparent;
   overflow: hidden;
+  min-height: 56px;
 }
 
+/* make sure gap is visible even when shadows overlap */
+#expense-list li:not(:last-child) {
+  margin-bottom: 0;   /* gap handles spacing */
+}
+
+
+/* amount stays right-aligned */
+#expense-list li .amount {
+  grid-area: amount;
+  justify-self: end;
+  align-self: center;
+  white-space: nowrap;
+  font-weight: 700;
+  padding: .25rem .6rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--accent) 8%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--accent) 18%, var(--border));
+}
+
+/* actions spaced out */
+#expense-list li .actions {
+  grid-area: actions;
+  display: flex;
+  gap: 12px;          /* space between action buttons */
+  justify-self: end;  /* stick to the far right */
+  align-items: center;
+}
+
+/* If your markup wraps amount and buttons in a right-side container */
+#expense-list li .right,
+#expense-list li .end {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* small defensive rules to avoid collapsing spacing */
+#expense-list li > * { min-width: 0; }
+
+/* keep your visual states */
 #expense-list li:nth-child(even) {
   background: color-mix(in oklab, var(--surface) 92%, transparent);
 }
@@ -449,6 +502,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   border-style: dashed;
   background: color-mix(in oklab, var(--accent) 6%, var(--surface));
 }
+
 
 /* Category stripe */
 #expense-list li::before {
