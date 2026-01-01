@@ -28,6 +28,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## 🧱 Tech Stack
+
 - **HTML5** – App structure & forms  
 - **CSS3** – CSS variables, grid, responsive layout, animations  
 - **Vanilla JavaScript** – App logic, filtering, sorting, localStorage persistence  
