@@ -51,6 +51,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## 📁 Project Structure
+
 - `index.html` — App structure and controls  
 - `style.css` — Layout, themes, animations  
 - `script.js` — Logic, storage, rendering  
