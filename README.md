@@ -6,6 +6,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## ✨ Features
+
 - 📱 **Responsive UI** – Clean card-style design that works on all devices  
 - 🌓 **Light/Dark Mode** – Toggle with persistence (saved in localStorage)  
 - ➕ **Expense Management** – Add, edit, delete expenses quickly  
