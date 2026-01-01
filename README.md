@@ -60,6 +60,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## 🧩 UI & Controls
+
 - **Theme:** ☀️/🌙 toggle (saved in localStorage)  
 - **Form:** Name, Amount, Category, Date (required); Notes optional  
 - **Filters:** Search, Category, Period, Sort  
