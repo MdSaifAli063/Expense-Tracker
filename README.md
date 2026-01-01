@@ -70,6 +70,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## ⌨️ Accessibility
+
 - Tab-friendly navigation with clear focus styles  
 - Screen reader support with `aria-labels`  
 - Toast area uses `aria-live="polite"`  
