@@ -37,6 +37,7 @@ Track, filter, and manage expenses with ease — includes light/dark themes, sor
 ---
 
 ## 🚀 Getting Started
+
 1. **Clone or Download** this repository  
 2. **Run locally**:  
    - Option A: Open `index.html` directly  
