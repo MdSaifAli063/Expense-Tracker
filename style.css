@@ -457,7 +457,6 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   border: 1px solid color-mix(in oklab, var(--accent) 18%, var(--border));
 }
 
-/* actions spaced out */
 #expense-list li .actions {
   grid-area: actions;
   display: flex;
