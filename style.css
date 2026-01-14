@@ -395,8 +395,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   color: color-mix(in oklab, var(--chip-text) 90%, #fff 0%);
 }
 
-/* Expenses List */
-/* Expenses List */
+
 #expenses-title {
   margin: 22px 0 10px;
   font-size: 18px;
