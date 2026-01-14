@@ -424,7 +424,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   column-gap: clamp(16px, 2vw, 28px);
   row-gap: clamp(6px, 1.2vw, 12px);
 
-  /* 👇 add vertical spacing safety */
+
   margin: 0;                 /* reset */
   border-radius: var(--radius);
   padding: clamp(20px, 2.2vw, 24px) clamp(18px, 3vw, 28px);
