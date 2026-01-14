@@ -252,7 +252,7 @@ input:hover, select:hover { border-color: color-mix(in oklab, var(--accent) 30%,
 input:focus, select:focus { border-color: var(--accent); box-shadow: var(--ring); }
 input:disabled, select:disabled { opacity: .65; cursor: not-allowed; }
 
-/* Buttons */
+
 button {
   --btn-bg: var(--accent-gradient);
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
