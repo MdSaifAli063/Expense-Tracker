@@ -440,11 +440,11 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 }
 
 #expense-list li:not(:last-child) {
-  margin-bottom: 0;   /* gap handles spacing */
+  margin-bottom: 0;  
 }
 
 
-/* amount stays right-aligned */
+
 #expense-list li .amount {
   grid-area: amount;
   justify-self: end;
