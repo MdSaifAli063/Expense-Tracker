@@ -405,7 +405,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 #expense-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;        /* proper spacing between cards */
+  gap: 16px;       
   padding: 0;
   margin: 0;
   list-style: none;
