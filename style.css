@@ -170,7 +170,7 @@ a:hover { text-decoration: underline; }
 .theme-toggle .sun, .theme-toggle .moon { font-size: 14px; line-height: 1; opacity: .85; }
 #theme-switch:checked + label::after { transform: translateX(calc(var(--w) - var(--h))); }
 
-/* Panel + Card */
+
 .panel, .card {
   background: color-mix(in oklab, var(--surface) 92%, transparent);
   border: 1px solid var(--border);
