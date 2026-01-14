@@ -439,7 +439,6 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   min-height: 56px;
 }
 
-/* make sure gap is visible even when shadows overlap */
 #expense-list li:not(:last-child) {
   margin-bottom: 0;   /* gap handles spacing */
 }
