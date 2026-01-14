@@ -213,53 +213,61 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       li.className = "expense-item";
       li.setAttribute("data-id", String(expense.id));
+      li.setAttribute("data-cat", expense.category || "Other");
 
-      const left = document.createElement("div");
-      left.className = "item-left";
+      // Title (name)
+      const titleEl = document.createElement("div");
+      titleEl.className = "title";
+      titleEl.textContent = expense.name;
 
-      const name = document.createElement("span");
-      name.className = "name";
-      name.textContent = expense.name;
+      // Meta (date + optional notes)
+      const metaEl = document.createElement("div");
+      metaEl.className = "meta";
+      const dateEl = document.createElement("span");
+      dateEl.className = "date";
+      dateEl.textContent = formatDate(expense.date);
+      metaEl.appendChild(dateEl);
+      if (expense.notes) {
+        const noteEl = document.createElement("span");
+        noteEl.className = "note";
+        noteEl.textContent = expense.notes;
+        metaEl.appendChild(noteEl);
+      }
 
-      const badge = document.createElement("span");
-      badge.className = "badge";
-      badge.textContent = expense.category || "Other";
+      // Category chip
+      const catEl = document.createElement("span");
+      catEl.className = "category";
+      catEl.setAttribute("data-cat", expense.category || "Other");
+      catEl.textContent = expense.category || "Other";
 
-      const date = document.createElement("small");
-      date.className = "date";
-      date.textContent = formatDate(expense.date);
+      // Amount pill
+      const amountEl = document.createElement("span");
+      amountEl.className = "amount";
+      amountEl.textContent = formatNumber(expense.amount);
 
-      const notes = document.createElement("small");
-      notes.className = "notes";
-      notes.textContent = expense.notes ? `• ${expense.notes}` : "";
-
-      left.append(name, badge, date);
-      if (expense.notes) left.append(notes);
-
-      const right = document.createElement("div");
-      right.className = "item-right";
-
-      const amount = document.createElement("span");
-      amount.className = "amount";
-      amount.textContent = formatNumber(expense.amount);
+      // Actions
+      const actionsEl = document.createElement("div");
+      actionsEl.className = "actions";
 
       const editBtn = document.createElement("button");
-      editBtn.className = "icon-btn";
       editBtn.setAttribute("data-action", "edit");
       editBtn.setAttribute("aria-label", "Edit expense");
       editBtn.title = "Edit";
       editBtn.textContent = "✏️";
 
       const delBtn = document.createElement("button");
-      delBtn.className = "icon-btn danger";
+      delBtn.className = "danger";
       delBtn.setAttribute("data-action", "delete");
       delBtn.setAttribute("aria-label", "Delete expense");
       delBtn.title = "Delete";
       delBtn.textContent = "🗑️";
 
-      right.append(amount, editBtn, delBtn);
+      actionsEl.append(editBtn, delBtn);
 
-      li.append(left, right);
+      // Assemble according to CSS grid areas:
+      // title | category | amount | actions
+      // meta  | category | amount | actions
+      li.append(titleEl, metaEl, catEl, amountEl, actionsEl);
       frag.appendChild(li);
     }
 
