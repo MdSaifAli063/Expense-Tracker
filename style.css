@@ -325,7 +325,6 @@ button.ghost:hover { background: color-mix(in oklab, var(--surface-2) 70%, trans
   .controls-actions > * { flex: 1 1 auto; }
 }
 
-/* Summary Chips */
 #summary { margin-top: 22px; }
 #summary h2 { margin: 0 0 10px; font-size: 18px; font-weight: 800; }
 .chips { display: flex; flex-wrap: wrap; gap: 10px; }
