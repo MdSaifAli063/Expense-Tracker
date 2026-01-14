@@ -34,7 +34,7 @@
   color-scheme: light;
 }
 
-/* Prefer system dark if no explicit data-theme set */
+
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
     color-scheme: dark;
@@ -99,11 +99,10 @@ html[data-theme="dark"] body {
     linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
 }
 
-/* Links */
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* Focus styles */
+
 :where(button, [role="button"], input, select, textarea, a, label):focus-visible {
   outline: none;
   box-shadow: var(--ring);
