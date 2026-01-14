@@ -109,7 +109,7 @@ a:hover { text-decoration: underline; }
   border-radius: max(6px, var(--radius-xs));
 }
 
-/* Layout Shell */
+
 .container {
   max-width: 1140px;
   margin: 0 auto;
