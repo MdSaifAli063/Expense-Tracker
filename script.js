@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const initialTheme = prefs.theme || htmlEl.getAttribute("data-theme") || "dark";
   applyTheme(initialTheme);
   if (themeSwitch) {
-    themeSwitch.checked = initialTheme === "dark";
+    themeSwitch.checked = initialTheme === "light";
   }
 
   // Default date to today
