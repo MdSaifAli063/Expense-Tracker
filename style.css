@@ -411,7 +411,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   list-style: none;
 }
 
-/* each card */
+
 #expense-list li {
   position: relative;
   display: grid;
