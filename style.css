@@ -623,7 +623,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   background: linear-gradient(180deg, color-mix(in oklab, var(--danger) 90%, #fff 0%), color-mix(in oklab, var(--danger) 88%, #000 8%));
 }
 
-/* Mobile actions pinned right */
+
 @media (max-width: 620px) {
   #expense-list li {
     grid-template-areas:
@@ -643,7 +643,6 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   }
 }
 
-/* Total Footer */
 #total {
   position: sticky; bottom: 10px; margin-top: 18px; z-index: 10;
 }
