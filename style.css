@@ -460,8 +460,8 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 #expense-list li .actions {
   grid-area: actions;
   display: flex;
-  gap: 12px;          /* space between action buttons */
-  justify-self: end;  /* stick to the far right */
+  gap: 12px;          
+  justify-self: end;  
   align-items: center;
 }
 
