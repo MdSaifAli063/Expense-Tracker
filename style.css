@@ -662,7 +662,7 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 }
 #total-count.muted { color: var(--muted); font-weight: 700; }
 
-/* Toast */
+
 #toast {
   position: fixed; right: 18px; bottom: 18px; z-index: 1000;
   padding: 12px 14px; min-width: 220px; max-width: min(90vw, 420px);
@@ -676,11 +676,11 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
 }
 #toast.show { opacity: 1; transform: translateY(0); }
 
-/* Utilities */
+
 .muted { color: var(--muted); }
 .hidden { display: none !important; }
 
-/* Reduce motion */
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
