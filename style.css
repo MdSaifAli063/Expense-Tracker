@@ -465,7 +465,6 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   align-items: center;
 }
 
-/* If your markup wraps amount and buttons in a right-side container */
 #expense-list li .right,
 #expense-list li .end {
   display: flex;
@@ -474,10 +473,8 @@ html[data-theme="dark"] :where(.category, .chip)[data-cat] {
   justify-content: flex-end;
 }
 
-/* small defensive rules to avoid collapsing spacing */
 #expense-list li > * { min-width: 0; }
 
-/* keep your visual states */
 #expense-list li:nth-child(even) {
   background: color-mix(in oklab, var(--surface) 92%, transparent);
 }
