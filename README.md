@@ -3,7 +3,6 @@
 A modern, responsive, and accessible **Expense Tracker** built with **vanilla HTML, CSS & JavaScript**.  
 Track, filter, and manage expenses with ease — includes light/dark themes, sorting, exporting, and smooth interactions.  
 
-
 ---
 
 ## ✨ Features
